@@ -9,6 +9,14 @@ double function(double x){
 
 	return cs-(cs-c0)*exp(-ka*t);
 }
+
+double function_zero(double x, double t){
+	return 1.94591014906-0.88*t;//9-(9-2)*e^(-0.88t) -> ln(1-7*e^(-0.88*t))=0 -> ln(7) + (-0.88t)=0
+}
+
+double derivative_zero(double x){
+	return -0.88;
+}
  	
 double derivative(double x){
 	double cs=9.0;
@@ -42,6 +50,6 @@ double newton_raphson(double x0, double tolerance){
 }
 
 int main(int argc, char** argv){
-	printf("%lf", derivative(1.0));
+	printf("%lf", function(10.0));
 	
 }
