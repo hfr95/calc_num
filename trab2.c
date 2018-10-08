@@ -22,34 +22,43 @@ double derivative(double x){
 	double cs=9.0;
 	double c0=2.0;
 	double ka=0.88;
-	double t=1;
+	double t=x;
 
-	return -(-ka)*(cs-c0)*exp(-ka*t);
+	return (ka)*(cs-c0)*exp(-ka*t);
 }
 
 double newton_raphson_core(double x0){
-	
-
-
 	double x1=0;
-	x1=x0-(function(x0))/(derivative(x0));
+    x1=x0 - function(x0)/derivative(x0);
 	return x1;	
 }
 
 double newton_raphson(double x0, double tolerance){
 	double x1=0;
-	double error=0;	
+	double error=tolerance * 2;	
 	int iteration=0;
-	while(error<tolerance&&iteration<MAX_ITERATIONS){
+    
+	while( error > tolerance && iteration < MAX_ITERATIONS ){
 		x1=newton_raphson_core(x0);
-		error=x1-x0;
+		error=abs(x1-x0);
 		x0=x1;
-		x1=0;
 		iteration++;
-	}	
+	}
+	
+	if(iteration >= MAX_ITERATIONS){
+	  printf("Não ficou dentro da tolerância de erro em %d iterações.\n", MAX_ITERATIONS);
+    }
+    
+    return x1;
 }
 
 int main(int argc, char** argv){
-	printf("%lf", function(10.0));
+
+  printf("\nt = 1 dia\n");
+  printf("resultado = %lf\n\n", newton_raphson(1.0, 10E-6));
+  printf("t = 5 dias\n");
+  printf("resultado = %lf\n\n", newton_raphson(5.0, 10E-6));
+  printf("t = 10 dias\n");
+  printf("resultado = %lf\n\n", newton_raphson(10.0, 10E-6));
 	
 }
