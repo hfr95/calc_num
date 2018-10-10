@@ -10,12 +10,14 @@ double function(double x){
 	return cs-(cs-c0)*exp(-ka*t);
 }
 
-double function_zero(double x, double t){
-	return 1.94591014906-0.88*t;//9-(9-2)*e^(-0.88t) -> ln(1-7*e^(-0.88*t))=0 -> ln(7) + (-0.88t)=0
+double function_zero(double t){
+	return 1 - 7*exp(-0.88*t);
+  //return 1.94591014906-0.88*t;//9-(9-2)*e^(-0.88t) -> ln(1-7*e^(-0.88*t))=0 -> ln(7) + (-0.88t)=0
 }
 
-double derivative_zero(double x){
-	return -0.88;
+double derivative_zero(double t){
+  return 0.88*7*exp(-0.88*t);
+  //return -0.88;
 }
  	
 double derivative(double x){
@@ -29,7 +31,7 @@ double derivative(double x){
 
 double newton_raphson_core(double x0){
 	double x1=0;
-    x1=x0 - function(x0)/derivative(x0);
+    x1=x0 - function_zero(x0)/derivative_zero(x0);
 	return x1;	
 }
 
@@ -40,7 +42,8 @@ double newton_raphson(double x0, double tolerance){
     
 	while( error > tolerance && iteration < MAX_ITERATIONS ){
 		x1=newton_raphson_core(x0);
-		error=abs(x1-x0);
+		error=fabs(x1-x0);
+        printf("x0:%lf. x1:%lf. erro:%lf.funcao %lf\n",x0,x1,error,function(x1));
 		x0=x1;
 		iteration++;
 	}
